@@ -1,0 +1,74 @@
+<!doctype html>
+<title>Flaskr</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+<div class="page">
+  {% if session.logged_in %}
+  <header>
+            <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+                <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" href="#">ToDo </a>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="index.html"><i class="fa fa-home"></i> Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="templates/add-todo.html"><i class="fa fa-plus"></i> Add</a>
+                        </li>
+
+                        <li class="nav-item dropdown hidden-md-down">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fa fa-user"></i> Profile
+                            </a>
+                            <ul class="dropdown-menu justify-content-start" aria-labelledby="navbarDropdownMenuLink">
+                                <li class="user-header dropdown-item">
+                                  <img src="static/images/flask.png" class="img-circle" alt="User Image">
+
+                                  <p>
+                                    Alexander Pierce -<small> alexander@example.com</small>
+                                  </p>
+                                </li>
+                                <li class="user-body">
+                                  <div class="row">
+                                    <div class="col-sm-4 text-center">
+                                      <span class="badge badge-success">5 Lists</span>
+                                    </div>
+                                    <div class="col-sm-4 text-center">
+                                      <span class="badge badge-success">80% Done</span>
+                                    </div>
+                                    <div class="col-sm-4 text-center">
+                                      <a href="#"  data-toggle="tooltip" title="Click to Upgrade"><span class="badge badge-warning">Free Account</span></a>
+                                    </div>
+                                  </div>
+                                  <!-- /.row -->
+                                </li>
+                                <li class="user-footer">
+                                  <div class="float-left">
+                                    <a href="#" class="btn btn-secondary btn-flat">Edit</a>
+                                  </div>
+                                  <div class="float-right">
+                                    <a href="{{url_for('logout')}}" class="btn btn-secondary btn-flat">Sign out</a>
+                                  </div>
+                                  <div class="clearfix"></div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item hidden-lg-up"><a href="#" class="nav-link"><i class="fa fa-user"></i> Profile</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+  {% endif %}
+  </div>
+  {% for message in get_flashed_messages() %}
+    <div class=flash>{{ message }}</div>
+  {% endfor %}
+  {% block body %}{% endblock %}
+</div>
+<script src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tether.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
