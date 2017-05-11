@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import session, url_for,redirect, render_template,request
+from flask import session, url_for,redirect, render_template,request, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import enum
@@ -91,13 +91,15 @@ def logout():
 @app.route('/user', methods = ['POST'])
 def add_user():
     if request.form['password'] != request.form['confirm-password']:
+        flash('Password don\'t match ')
         return redirect(url_for('register'))
 
-    user = User(request.form['name'],request.form['email'],request.form['password'])
+    user = User(request.form['email'],request.form['name'],request.form['password'])
     db.session.add(user)
     db.session.commit()
     session['email'] = user.email
     session['name'] = user.name
+    session['account'] = user.account
     session['logged_in'] = True
 
     return redirect(url_for('index'))
@@ -111,6 +113,7 @@ def find_user():
             session['email'] = request.form['email']
             session['logged_in'] = True
             return redirect(url_for('index'))
+    flash('Wrong Credentials')
     return redirect(url_for('login'))
 
 if __name__ == "__main__":
