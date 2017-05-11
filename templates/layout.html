@@ -28,24 +28,12 @@
                                 <li class="user-header dropdown-item">
                                   <img src="static/images/flask.png" class="img-circle" alt="User Image">
 
-                                  <p>
-                                    Alexander Pierce -<small> alexander@example.com</small>
+                                  <p class="text-center">
+                                    {{session.name}} -- {{session.email}}
                                   </p>
+
                                 </li>
-                                <li class="user-body">
-                                  <div class="row">
-                                    <div class="col-sm-4 text-center">
-                                      <span class="badge badge-success">5 Lists</span>
-                                    </div>
-                                    <div class="col-sm-4 text-center">
-                                      <span class="badge badge-success">80% Done</span>
-                                    </div>
-                                    <div class="col-sm-4 text-center">
-                                      <a href="#"  data-toggle="tooltip" title="Click to Upgrade"><span class="badge badge-warning">Free Account</span></a>
-                                    </div>
-                                  </div>
-                                  <!-- /.row -->
-                                </li>
+                                
                                 <li class="user-footer">
                                   <div class="float-left">
                                     <a href="#" class="btn btn-secondary btn-flat">Edit</a>
@@ -65,7 +53,18 @@
   {% endif %}
   </div>
   {% for message in get_flashed_messages() %}
-    <div class=flash>{{ message }}</div>
+    <div class="container">
+      <div class="row">
+        <div class="offset-md-2 col-md-8">
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Warning!</strong> {{ message }}
+          </div>
+        </div>
+      </div>
+    </div>
   {% endfor %}
   {% block body %}{% endblock %}
 </div>
