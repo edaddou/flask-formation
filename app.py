@@ -106,16 +106,12 @@ def add_user():
 def find_user():
 
     user = User.query.filter_by(email = request.form['email']).first();
-    if user.password == request.form['password']:
-        session['email'] = request.form['email']
-        session['logged_in'] = True
-        return redirect(url_for('index'))
-    else:
-        return redirect(url_for('login'))
-
-
-    return redirect(url_for('index'))
+    if user is not None:
+        if user.password == request.form['password']:
+            session['email'] = request.form['email']
+            session['logged_in'] = True
+            return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 if __name__ == "__main__":
     app.run(debug=True)
-
