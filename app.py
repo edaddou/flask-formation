@@ -31,6 +31,42 @@ class User(db.Model):
 
 """User class end."""
 
+class Todo(db.Model):
+    """Attributes for Todo."""
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String(50))
+    body = db.Column(db.String(255), unique = True)
+    pub_date = db.Column(db.DateTime,default=datetime.now)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', backref=db.backref('todos')) #todos a query ref for easier access
+
+    def __init__(self, title,body, user):
+        super(Todo, self).__init__()
+        self.title = title
+        self.body = body
+        self.user = user
+
+"""Todo class end."""
+
+class Item(db.Model):
+    """Attributes for Item."""
+    id = db.Column(db.Integer, primary_key = True)
+    body = db.Column(db.String(255), unique = True)
+    pub_date = db.Column(db.DateTime,default=datetime.now)
+    due_date = db.Column(db.DateTime)
+    done =  db.Column(db.Boolean, default=False, nullable=False)
+    todo_id = db.Column(db.Integer, db.ForeignKey('todo.id'))
+    todo = db.relationship('Todo', backref=db.backref('items')) #items: a query ref for easier access
+
+    def __init__(self, body, due_date, todo):
+        super(Item, self).__init__()
+        self.body = body
+        self.pub_date = datetime.utcnow()
+        self.todo = todo
+
+"""Item class end."""
+
 
 @app.route('/')
 def index():
