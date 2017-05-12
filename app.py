@@ -10,9 +10,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://scott:test123@localhost
 app.config['SECRET_KEY'] = "Formation TP 12354"
 db = SQLAlchemy(app)
 
-class AccountType(enum.Enum):
-    FREE = "free"
-    PREMIUM = "Premium"
 
 class User(db.Model):
     """Attributes for User."""
@@ -20,8 +17,8 @@ class User(db.Model):
     name = db.Column(db.String(50))
     email = db.Column(db.String(120), unique = True)
     password = db.Column(db.String(20), nullable = False)
-    account = db.Column(db.Enum(AccountType), default=AccountType.FREE)
     join_date = db.Column(db.DateTime, default=datetime.now)
+    confrimation = db.Column(db.Boolean, default = False)
 
     def __init__(self, email,name,password):
         super(User, self).__init__()
@@ -39,7 +36,7 @@ class Todo(db.Model):
     pub_date = db.Column(db.DateTime,default=datetime.now)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', backref=db.backref('todos')) #todos a query ref for easier access
+    user = db.relationship('User', backref='todos', lazy="joined") #todos a query ref for easier access
 
     def __init__(self, title,body, user):
         super(Todo, self).__init__()
@@ -71,7 +68,9 @@ class Item(db.Model):
 @app.route('/')
 def index():
     if session.get('logged_in') == True:
-        return render_template('index.html')
+        user = User.query.filter_by(email = session['email']).first()
+        todos = user.todos
+        return render_template('index.html',todos=todos)
     return redirect(url_for('login'))
 
 
@@ -99,7 +98,6 @@ def add_user():
     db.session.commit()
     session['email'] = user.email
     session['name'] = user.name
-    session['account'] = user.account
     session['logged_in'] = True
 
     return redirect(url_for('index'))
