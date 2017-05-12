@@ -197,6 +197,15 @@ def changeItem():
 
     return redirect(url_for('index'))
 
+@app.route('/delete',methods= ['POST'])
+def deleteTodo():
+    todo_id =  request.form['id']
+    todo = Todo.query.filter_by(id = todo_id).first();
+    db.session.delete(todo)
+    db.session.commit()
+
+    return redirect(url_for('index'))
+
 @app.route('/confirmation/<mail>')
 def confirm(mail):
     user=User.query.filter_by(email=mail).update(dict(confirmation="true"))
