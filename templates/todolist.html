@@ -14,12 +14,12 @@
                         {% for item in items %}
                         <li>
                             <div class="info float-left">
-                                <p>
+                                <p {% if item.done == True %} class="done" {% endif %}>
                                     <i class="fa fa-list"></i> {{item.body}}. <span class="badge badge-sm badge-info">{{item.due_date}}</span></p>
                             </div>
                             <div class="actions float-right">
                                 <form class="" action="{{url_for('changeItem')}}" method="post">
-                                  <input type="hidden" name="id" value="item.id">
+                                  <input type="hidden" name="id" value="{{item.id}}">
                                   <button type="submit" class="btn btn-success btn-xs" name="submit" value="done"><i class=" fa fa-check"></i></button>
                                   <button type="submit" class="btn btn-danger btn-xs" name="submit" value="del"><i class="fa fa-trash-o "></i></button>
                                 </form>

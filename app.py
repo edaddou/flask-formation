@@ -76,15 +76,18 @@ class Item(db.Model):
     pub_date = db.Column(db.DateTime,default=datetime.now)
     due_date = db.Column(db.DateTime)
     done =  db.Column(db.Boolean, default=False, nullable=False)
+
     todo_id = db.Column(db.Integer, db.ForeignKey('todo.id'))
     todo = db.relationship('Todo', backref=db.backref('items')) #items: a query ref for easier access
 
-    def __init__(self, body, due_date, todo):
+    def __init__(self, body, due_date, todo, done = False):
         super(Item, self).__init__()
         self.body = body
         self.pub_date = datetime.now()
         self.due_date = due_date
+        self.done = done
         self.todo = todo
+
 
 """Item class end."""
 
@@ -137,7 +140,7 @@ def add_user():
 @app.route('/find', methods = ['POST'])
 def find_user():
 
-    user = User.query.filter_by(email=username,password=password)
+    user = User.query.filter_by(email=username,password=password).first()
     if user is not None:
         session['email'] = request.form['email']
         session['logged_in'] = True
