@@ -1,5 +1,36 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  
+
+  <section class="container">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="jumbotron">
+                  <h1 class="display-6">Hello, world!</h1>
+                  <hr class="my-4">
+                  <p class="lead">This template is used for Tutorial purposes It is based on <a href="https://v4-alpha.getbootstrap.com">Bootstrap 4</a>. This tutorial is about creating a TODO web app using <a href="http://flask.pocoo.org">Flask</a>.</p>
+
+              </div>
+          </div>
+      </div>
+      <div class="row">
+        {% for todo in todos %}
+          <div class="col-md-4">
+              <div class="card  card-info">
+                  <div class="card-block">
+                      <h4 class="card-title">{{todo.title}}</h4>
+                      <h6 class="card-subtitle mb-2 ">{{todo.body}}</h6>
+                  </div>
+                  <div class="card-footer links">
+                      <div class=" clearfix">
+                          <a href="{{url_for('todolist')}}?id={{todo.id}}" class="card-link float-left">Check list</a>
+                          <a href="#" class="card-link float-right">Delete Todo</a>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+          {% endfor %}
+        </div>
+  </section>
 {% endblock %}
