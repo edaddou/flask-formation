@@ -183,11 +183,12 @@ def addItem():
     db.session.add(item)
     db.session.commit()
 
-    return redirect(url_for('index'))
+    return redirect(url_for('todolist',id=todo_id))
 
 @app.route('/changeItem',methods= ['POST'])
 def changeItem():
     item_id =  request.form['id']
+    todo_id = request.form['todo_id']
     item = Item.query.filter_by(id = item_id).first();
     if(request.form['submit']=='done'):
         item.done = True
@@ -195,7 +196,7 @@ def changeItem():
         db.session.delete(item)
     db.session.commit()
 
-    return redirect(url_for('index'))
+    return redirect(url_for('todolist',id=todo_id))
 
 @app.route('/delete',methods= ['POST'])
 def deleteTodo():
