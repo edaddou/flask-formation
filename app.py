@@ -140,7 +140,7 @@ def add_user():
 @app.route('/find', methods = ['POST'])
 def find_user():
 
-    user = User.query.filter_by(email=username,password=password).first()
+    user = User.query.filter_by(email=request.form['email'],password=request.form['password']).first()
     if user is not None:
         session['email'] = request.form['email']
         session['logged_in'] = True
